@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todo App</title>
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="./static/css/materialize.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Tasks</a>
+            <ul class="right hide-on-med-and-down">
+            <li><a href="#">User</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+            <li><a href="#">User</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h4>Add a new task</h4>
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1"><i class="material-icons left">add_box</i>Create</a>
+            <table class="striped">
+                <thead>
+                  <tr>
+                      <th>Task</th>
+                      <th>Assignee</th>
+                      <th>Deadline</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{range .Tasks}}
+                    {{if .IsDone}}
+                      <tr>
+                        <td><strike>{{.Content}}</strike></td>
+                        <td>{{.Assignee}}</td>
+                        <td>{{.Deadline}}</td>
+                        <td>Completed</td>
+                        <td>
+                          <a class="waves-effect waves-light btn-small disabled">Mark as Done</a>
+                          <a class="waves-effect waves-light btn-small disabled">Delete</a>
+                        </td>
+                      </tr>
+                    {{else}}
+                      <tr>
+                        <td>{{.Content}}</td>
+                        <td>{{.Assignee}}</td>
+                        <td>{{.Deadline}}</td>
+                        <td>Not Completed</td>
+                        <td>
+                          <a href="/complete/{{ .ID}}" class="waves-effect waves-light btn-small">Mark as Done</a>
+                          <a href="/delete/{{ .ID}}" class="waves-effect waves-light btn-small">Delete</a>
+                        </td>
+                      </tr>
+                    {{end}}
+                  {{end}}
+                </tbody>
+              </table>
+              <ul class="pagination" style="float: right;">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active teal accent-4"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+              </ul>
+        </div>
+    </div>
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal bottom-sheet">
+        <div class="modal-content">
+            <h4>Create Task</h4>
+            <p>Please fill out the form below to create a task</p>
+            <br/>
+            <div class="row">
+              <form class="col s12" action="/add" method="post">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="content" name="content" type="text" class="validate">
+                    <label for="content">Task Details</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="assignee" name="assignee" type="text" class="validate">
+                    <label for="assignee">Assign To</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input type="text" name="deadline" class="datepicker" id="deadline">
+                    <label for="deadline">Deadline</label>
+                  </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                  <i class="material-icons right">send</i>
+                </button>
+              </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="./static/js/materialize.min.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems);
+});
+
+$(document).ready(function(){
+  $('.datepicker').datepicker();
+});
+</script>
