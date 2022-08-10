@@ -4,13 +4,22 @@ create database todoapp;
 
 \c todoapp;
 
-create table tasks (
+create table tasks
+(
     id SERIAL PRIMARY KEY,
     content TEXT NOT NULL,
     isDone BOOLEAN NOT NULL DEFAULT FALSE,
+    assignee TEXT NOT NULL,
+    deadline DATE NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT now()
 );
 
-insert into tasks(content) values('Wash the dog');
-insert into tasks(content) values('Take out the trash');
-insert into tasks(content) values('Go for a walk after dinner');
+insert into tasks
+    (content, assignee, deadline)
+values('Create a proposal for next meet', 'Harun', '2022-09-12');
+insert into tasks
+    (content, assignee, deadline)
+values('Create a presentation for morning briefing', 'Rudy', '2022-08-30');
+insert into tasks
+    (content, assignee, deadline)
+values('Check the journal', 'Siska', '2022-10-12');
